@@ -1,34 +1,34 @@
-from monitor import start_monitoring, show_monitoring
+from monitor_functions import start_monitoring, show_monitoring
+from menu_functions import show_main_menu, menu_input_choice, show_set_alarm_menu, set_alarm_choice
+
 import psutil
 import time
+
 alarms = {
-    "cpu": [],
-    "memory": [],
-    "disk": []
+    "cpu": [2, 10, 40],
+    "memory": [2,30, 40],
+    "disk": [2]
 }
 
 main_menu_is_running = True
 set_alarm_menu_is_running = False
 monitoring_active = False
 alarm_monitoring = False
+bytes_to_gb = 1024**3
 
-print("==Välkommen till huvudmenyn==".upper())
+print("=================================")
+print("====Välkommen till huvudmenyn====".upper())
+print("=================================")
 
 while main_menu_is_running:
-    print("Menyval 1: Starta övervakning")
-    print("Menyval 2: Lista över övervakning")
-    print("Menyval 3: Skapa nya alarm")
-    print("Menyval 4: Visa alarm")
-    print("Menyval 5: Starta övervakningsläge")
-    print("Menyval 6: Ta bort alarm")
-    print("Menyval 7: Avsluta programmet")
-    menu_choice = input("Gör ett menyval mellan 1-7: ")
+    show_main_menu()
+    menu_choice = menu_input_choice()
 
     if menu_choice == "1":
         monitoring_active = True
         start_monitoring()
         print("\n🕵️ Övervakning startad 🕵️\n".upper())
-        input("Tryck enter för att komma tillbaka till menyn...")
+        input("Tryck enter för att komma tillbaka till menyn...".upper())
 
     elif menu_choice == "2":
         if not monitoring_active:
@@ -37,15 +37,12 @@ while main_menu_is_running:
             print()
             show_monitoring()
             print()
-            input("Tryck enter för att komma tillbaka till menyn...")
+            input("Tryck enter för att komma tillbaka till menyn...".upper())
+
     elif menu_choice == "3":
         set_alarm_menu_is_running = True
-        print("\n Konfigurera larm\n".upper())
-        print("1. CPU användning")
-        print("2. Minnesanvändning")
-        print("3. Diskanvändning")
-        print("4. Tillbaka till huvudmenyn")
-        alarm_menu_choice = input("Välj ett alternativ mellan 1-4: ")
+        show_set_alarm_menu()
+        alarm_menu_choice = set_alarm_choice()
 
         if alarm_menu_choice == "1":
             cpu_alarm = int(input("Ställ in en nivå för CPU alarm, mellan 0-100%: "))
@@ -66,43 +63,35 @@ while main_menu_is_running:
             print("Du måste välja en siffra mellan 1-4")
       
 
-    elif menu_choice == "4":  
-        print(f"\nCPU alarm: {alarms["cpu"]}%".upper())
-        print(f"RAM-minne alarm: {alarms["memory"]}%".upper())
-        print(f"Disk-minne alarm: {alarms["disk"]}%\n".upper())
-        input("Tryck enter för att komma tillbaka till menyn...")
+    elif menu_choice == "4":
+        for key, value in alarms.items():
+            print(f"{key} alarm".upper())
+            for alarm_value in alarms[key]:
+                print(f"{alarm_value}%")
+        input("Tryck enter för att komma tillbaka till menyn...".upper())
+
     elif menu_choice == "5":
         alarm_monitoring = True
         while alarm_monitoring:
-            print("Aktiv övervakning pågår")
-            time.sleep(0.5)
+            print("Aktiv övervakning pågår".upper())
+            time.sleep(1)
             for alarm in alarms["cpu"]:
-                if int(psutil.cpu_percent(interval=1)) >= int(alarm):
-                    print("Varning")
+                if psutil.cpu_percent(interval=1) >= (alarm):
+                    print("CPU ALARM!!")
             for alarm in alarms["memory"]:
-                if int(psutil.virtual_memory()) >= int(alarm):
-                    print("Varning")
-            for alarm in alarms["disk"]:
-                if int(psutil.disk_usage()) >= int(alarm):
-                    print("Varning")
+                if psutil.virtual_memory().percent >= (alarm):
+                    print("RAM ALARM")
+            for alarm in alarms["disk"]: 
+                if psutil.disk_usage('/').percent >= (alarm):
+                    print("DISK ALARM!!!")
 
-            '''
-            if alarms["cpu"] == []:
-                print("VARNING!! CPU")
-                time.sleep(1)
-            elif alarms["memory"] == []:
-                print("VARNING!! RAM-MINNE")
-                time.sleep(1)
-            elif alarms["disk"] == []:
-                print("VARNING!! DISK-MINNE")
-                time.sleep(1)
-            else:
-                continue
-                '''
     elif menu_choice == "6":
         pass
+
     elif menu_choice == "7":
-        print("\n===AVSLUTAR PROGRAMMET===\n".upper())
+        print("===============================")
+        print("======AVSLUTAR PROGRAMMET======".upper())
+        print("===============================")
         break
     else:
         print("\nvälj en siffra mellan 1-7\n".upper())
