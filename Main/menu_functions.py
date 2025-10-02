@@ -9,7 +9,7 @@ def show_main_menu():
     print("===============================")
     pass
 
-def menu_input_choice():
+def main_menu_input_choice():
     while True:
         menu_choice = input("Gör ett val mellan 1-7: ")
         try:
@@ -22,12 +22,13 @@ def menu_input_choice():
             print("Det måste vara en siffra")
 
 def show_set_alarm_menu():
-    print("\n Konfigurera larm\n".upper())
-    print("1. CPU användning")
-    print("2. Minnesanvändning")
-    print("3. Diskanvändning")
-    print("4. Tillbaka till huvudmenyn")
+        print("\n Konfigurera larm\n".upper())
+        print("1. CPU användning")
+        print("2. Minnesanvändning")
+        print("3. Diskanvändning")
+        print("4. Tillbaka till huvudmenyn")
 
+    
 def set_alarm_choice():
     while True:
         menu_choice = input("Gör ett val mellan 1-4: ")
