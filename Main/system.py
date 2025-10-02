@@ -1,14 +1,9 @@
 from monitor_functions import start_monitoring, show_monitoring
 from menu_functions import show_main_menu, menu_input_choice, show_set_alarm_menu, set_alarm_choice
+from alarm import show_all_active_alarms
 
 import psutil
 import time
-
-alarms = {
-    "cpu": [2, 10, 40],
-    "memory": [2,30, 40],
-    "disk": [2]
-}
 
 main_menu_is_running = True
 set_alarm_menu_is_running = False
@@ -64,11 +59,7 @@ while main_menu_is_running:
       
 
     elif menu_choice == "4":
-        for key, value in alarms.items():
-            print(f"{key} alarm".upper())
-            for alarm_value in alarms[key]:
-                print(f"{alarm_value}%")
-        input("Tryck enter för att komma tillbaka till menyn...".upper())
+        show_all_active_alarms()
 
     elif menu_choice == "5":
         alarm_monitoring = True
