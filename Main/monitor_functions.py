@@ -4,7 +4,9 @@ def start_monitoring():
     cpu_percent = psutil.cpu_percent(interval=1)
     memory = psutil.virtual_memory()
     disk = psutil.disk_usage("/")
+    print("\n🕵️ ÖVERVAKNING STARTAD 🕵️\n")
     return cpu_percent, memory, disk
+        
 
 
 def show_monitoring():
