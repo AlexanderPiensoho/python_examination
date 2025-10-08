@@ -30,16 +30,15 @@ def show_alarm_menu():
 
     
 def alarm_menu_input(): #Hanterar användarens menyval för alarm menyn
-    while True:
-        alarm_menu_choice = input("Gör ett val mellan 1-4: ")
-        try:
-            choice_number = int(alarm_menu_choice)
-            if 1<= choice_number <=4:
-                return alarm_menu_choice
-            else:
-                print("välj en siffra mellan 1-4")
-        except ValueError:
-            print("Det måste vara en siffra")
+    alarm_menu_choice = input("Gör ett val mellan 1-4: ")
+    try:
+        choice_number = int(alarm_menu_choice)
+        if 1<= choice_number <=4:
+            return alarm_menu_choice
+        else:
+            print("välj en siffra mellan 1-4")
+    except ValueError:
+        print("Det måste vara en siffra")
 
 
 
