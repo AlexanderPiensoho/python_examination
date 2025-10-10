@@ -52,28 +52,17 @@ class AlarmManager:
         except FileNotFoundError:
             return None
 
-# Handles user input for setting alarm level 1-100
-def alarm_percent_input():
-    while True:    
-        alarm_menu_choice = input("Gör ett val mellan 1-100: ")
-        try:
-            choice_number = int(alarm_menu_choice)
-            if 1<= choice_number <=100:
-                return int(alarm_menu_choice)
-            else:
-                print("välj en siffra mellan 1-100")
-        except ValueError:
-            print("Det måste vara en siffra")
-
-#Shows all alarms in the lists within the dict
+'''
+Shows all alarms in the lists within the dict
 def show_all_active_alarms (alarms):
     for key, values in alarms.items():
         print(f"{key} alarm".upper())
         for values in alarms[key]:
             print(f"{values}%")
+'''
 
 #Shows all alarms with a number before 1. cpu alarm 40% 2. cpu alarm 50% etc.
-def show_all_alarms_numbered (alarms):
+def show_all_alarms(alarms):
     counter = 1
     alarm_list = []
     for alarm_type, threshold_list in alarms.items():

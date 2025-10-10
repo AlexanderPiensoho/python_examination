@@ -1,7 +1,8 @@
-from monitor import start_monitoring, get_cpu_status, get_disk_status, get_memory_status, is_alarm_monitoring
-from menu import validate_menu_input, press_enter_to_continue, show_dynamic_menu
-from alarm import show_all_active_alarms, AlarmManager, alarm_percent_input, show_all_alarms_numbered
+from monitor import start_monitoring, get_cpu_status, get_disk_status, get_memory_status, active_monitoring
+from menu import validate_input, press_enter_to_continue, show_dynamic_menu
+from alarm import AlarmManager, show_all_alarms
 from log import log_event
+
 #Main_menu var used for show_dynamic_menu function
 main_menu ={
     "Menyval 1": "Starta övervakning",
@@ -30,7 +31,7 @@ def main():
     monitoring_active = False
     while main_menu_is_running:
         show_dynamic_menu("HUVUDMENY", main_menu)
-        menu_choice = validate_menu_input(1, 8)
+        menu_choice = validate_input(1, 8)
         #Starts monitoring. No threading, so it only turns monitoring to True.
         if menu_choice == "1":
             monitoring_active = True
@@ -48,25 +49,26 @@ def main():
             else:
                 log_event("System_status_hämtad_misslyckades")
                 print("❌Systemövervakning ej startad❌")
+                press_enter_to_continue()
         #Shows a submenu with 4 choices. Set alarm 1.2.3 and return main menu 4. 
         elif menu_choice == "3":
             set_alarm_menu_is_running = True
             while set_alarm_menu_is_running:
                 show_dynamic_menu("ALARM MENY", alarm_menu)
-                alarm_menu_choice = validate_menu_input(1, 4)
+                alarm_menu_choice = validate_input(1, 4)
                 if alarm_menu_choice == "1":
-                    alarm_threshold = alarm_percent_input()
-                    alarm_manager.add_alarm("cpu", alarm_threshold) #Adds alarm to a separet JSON file
+                    alarm_threshold = validate_input(1, 100)
+                    alarm_manager.add_alarm("cpu", int(alarm_threshold)) #Adds alarm to a separet JSON file
                     log_event(f"CPU_alarm_satt_på_{alarm_threshold}_%")
 
                 elif alarm_menu_choice == "2":
-                    alarm_threshold = alarm_percent_input()
-                    alarm_manager.add_alarm("memory", alarm_threshold)
+                    alarm_threshold = validate_input(1, 100)
+                    alarm_manager.add_alarm("memory", int(alarm_threshold))
                     log_event(f"memory_alarm_satt_på_{alarm_threshold}_%")
                                 
                 elif alarm_menu_choice == "3":
-                    alarm_threshold = alarm_percent_input()
-                    alarm_manager.add_alarm("disk", alarm_threshold)
+                    alarm_threshold = validate_input(1, 100)
+                    alarm_manager.add_alarm("disk", int(alarm_threshold))
                     log_event(f"disk_alarm_satt_på_{alarm_threshold}_%")
 
                 elif alarm_menu_choice == "4":
@@ -76,21 +78,27 @@ def main():
                     
         #Shows all alarms that is stored within the JSON
         elif menu_choice == "4":
-            show_all_active_alarms(alarm_manager.alarms)
+            show_all_alarms(alarm_manager.alarms)
             log_event("Visade_alla_aktiva_alarm")
             press_enter_to_continue()
-        #Starts active monitoring and calls out alarms when triggered.      
+        #Starts active monitoring and calls out alarms when triggered.  
+        # Need to fix so it only triggers with the closest alarm    
         elif menu_choice == "5":
             log_event("Startade_aktiv_övervakning")
-            is_alarm_monitoring(alarm_monitoring, alarm_manager.alarms)
+            active_monitoring(alarm_monitoring, alarm_manager.alarms)
         #Here you will be able to remove alarms from the JSON 
+        #Need to fix this to make it prettier
         elif menu_choice == "6":
-            alarm_list = show_all_alarms_numbered(alarm_manager.alarms)
-            alarm_remove_choice = int(input("Vilket alarm vill du ta bort?: "))#Needs error handling
-            idx = alarm_remove_choice -1
-            alarm_type, threshold = alarm_list[idx]
-            alarm_manager.remove_alarm(alarm_type, threshold)
-            press_enter_to_continue()
+            alarm_list = show_all_alarms(alarm_manager.alarms)
+            if len(alarm_list) == 0:
+                print("Det finns inga alarm att ta bort")
+                press_enter_to_continue()
+            else:
+                alarm_remove_choice = validate_input(1, len(alarm_list))
+                idx = int(alarm_remove_choice) -1
+                alarm_type, threshold = alarm_list[idx]
+                alarm_manager.remove_alarm(alarm_type, threshold)
+                press_enter_to_continue()
         #Reads all logging
         elif menu_choice == "7":
             print("\n=== Loggar ===")
@@ -99,9 +107,9 @@ def main():
             press_enter_to_continue()
         #Exits program
         elif menu_choice == "8":
-            print("===============================")
-            print("======AVSLUTAR PROGRAMMET======".upper())
-            print("===============================")
+            print("="*40)
+            print("AVSLUTAR PROGRAMMET".center(40))
+            print("="*40)
             log_event("Användare_avslutade_programmet")
             break
 

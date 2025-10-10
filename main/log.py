@@ -8,12 +8,3 @@ def log_event(message):
     
     with open("monitoring.log", "a") as log_file:
         log_file.write(log_message + "\n")
-
-
-#log_event("Här_är_loggfilen")
-
-'''
-print("\n=== Loggar ===")
-with open("monitoring.log", "r") as f:
-    print(f.read())
-    '''

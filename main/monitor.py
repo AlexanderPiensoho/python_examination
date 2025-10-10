@@ -27,8 +27,9 @@ def get_disk_status():
     disk_used_gb = psutil.disk_usage('/').used / bytes_to_gb()
     total_disk_gb = psutil.disk_usage('/').total / bytes_to_gb()
     return f"Disk | {disk_percent} % | {disk_used_gb:.2f} utav {total_disk_gb:.2f} total"
+
 #Starts active monitoring of the system. It scans all the alarms an messaure it to the current system levels
-def is_alarm_monitoring (alarm_monitoring, alarms):
+def active_monitoring (alarm_monitoring, alarms):
     alarm_monitoring = True
     try:
         while alarm_monitoring:

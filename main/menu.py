@@ -9,7 +9,7 @@ def show_dynamic_menu(title, option):
     print(f"{"="*40}")
 
 
-def validate_menu_input(min_value, max_value):
+def validate_input(min_value, max_value):
     while True:
         input_message = input(f"Gör ett val mellan {min_value}-{max_value}: ")
         try:
