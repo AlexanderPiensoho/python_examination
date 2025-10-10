@@ -1,0 +1,25 @@
+
+#Show menu dynamicly, either main menu or submenu. most of the prints are only fanzy stuff.
+def show_dynamic_menu(title, option):
+    print(f"\n{'='*40}")
+    print(f"{title.center(40)}")
+    print(f"{'='*40}")
+    for key in sorted(option.keys()):
+        print(f"{key}. {option[key]}")
+    print(f"{"="*40}")
+
+
+def validate_menu_input(min_value, max_value):
+    while True:
+        input_message = input(f"Gör ett val mellan {min_value}-{max_value}: ")
+        try:
+            choice_number = int(input_message)
+            if min_value <= choice_number <= max_value:
+                return str(choice_number)
+            else:
+                print(f"Välj en siffra mellan {min_value}-{max_value}!")
+        except ValueError:
+            print("Felaktigt värde, det måste vara en siffra")
+        
+def press_enter_to_continue ():
+    input("Tryck enter för att fortsätta...".upper())
