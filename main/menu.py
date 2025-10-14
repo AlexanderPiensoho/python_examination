@@ -1,10 +1,10 @@
 
 #Show menu dynamicly, either main menu or submenu. most of the prints are only fanzy stuff.
-def show_dynamic_menu(title, option):
+def show_dynamic_menu(title: str, option: dict[str, str]):
     print(f"\n{'='*40}")
     print(f"{title.center(40)}")
     print(f"{'='*40}")
-    for key in sorted(option.keys()):
+    for key in option.keys():
         print(f"{key}. {option[key]}")
     print(f"{"="*40}")
 
@@ -15,7 +15,7 @@ def validate_input(min_value, max_value):
         try:
             choice_number = int(input_message)
             if min_value <= choice_number <= max_value:
-                return str(choice_number)
+                return choice_number
             else:
                 print(f"Välj en siffra mellan {min_value}-{max_value}!")
         except ValueError:
