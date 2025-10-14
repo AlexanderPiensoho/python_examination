@@ -25,11 +25,11 @@ class AlarmManager:
         self.save_to_file()
 
     #delete an alarm
-    def remove_alarm(self, alarm_type, threshold):
+    def remove_alarm(self, alarm_type, threshold, current_log):
         if threshold in self.alarms[alarm_type]:
             self.alarms[alarm_type].remove(threshold)
             print(f"Raderade {alarm_type} alarm {threshold} %")
-            log_event(f"Användare_tog_bort_alarm_{alarm_type}_på_{threshold}_%")
+            log_event(f"Användare_tog_bort_alarm_{alarm_type}_på_{threshold}_%", current_log)
             self.save_to_file()
             return True
         else: 
@@ -40,7 +40,7 @@ class AlarmManager:
     #Need to make the JSON file better formated.
     def save_to_file(self, filename = "alarms.json"):
         with open(filename, "w") as write_file:
-            json.dump(self.alarms, write_file)
+            json.dump(self.alarms, write_file, indent=4)
 
     #Loads file from JSON into the programs dict
     def load_from_file(self, filename = "alarms.json"):
@@ -65,7 +65,7 @@ def show_all_alarms_numbered(alarms):
     return alarm_list
 
 #Handles the user input and makes it easier for the user to remove alarm from list with numbers instead of text
-def user_remove_alarm(alarm_list, alarm_manager):
+def user_remove_alarm(alarm_list, alarm_manager, current_log):
     if len(alarm_list) == 0:
         print("Det finns inga alarm att ta bort")
         press_enter_to_continue()
@@ -73,7 +73,7 @@ def user_remove_alarm(alarm_list, alarm_manager):
         alarm_remove_choice = validate_input(1, len(alarm_list))
         idx = alarm_remove_choice -1
         alarm_type, threshold = alarm_list[idx]
-        alarm_manager.remove_alarm(alarm_type, threshold)
+        alarm_manager.remove_alarm(alarm_type, threshold, current_log)
         press_enter_to_continue()
 
 

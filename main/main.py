@@ -97,7 +97,7 @@ def main():
             #Need to fix this to make it prettier
             case 6:
                 alarm_list = show_all_alarms_numbered(alarm_manager.alarms)
-                user_remove_alarm(alarm_list, alarm_manager)
+                user_remove_alarm(alarm_list, alarm_manager, current_log)
                 
             #Reads all logging
             case 7:

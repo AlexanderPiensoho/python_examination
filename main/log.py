@@ -7,10 +7,12 @@ def log_event(message, current_log):
     with open(current_log, "a") as log_file:
         log_file.write(log_message + "\n")
 
-#Need to add error handling if no files exists.
+#Show all logs from the current program run
 def print_current_log(current_log):
     try:
-        print("\n=== Loggar ===")
+        print(f"\n{'='*40}")
+        print("Loggar".center(40))
+        print(f"{'='*40}")
         with open(current_log, "r") as file:
             print(file.read())
     except FileNotFoundError:
