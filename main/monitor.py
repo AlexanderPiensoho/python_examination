@@ -33,30 +33,30 @@ def get_disk_status():
     return f"Disk | {disk_percent} % | {disk_used_gb:.2f}GB använta utav {total_disk_gb:.2f}GB total"
 
 #Makes sure only the highest alarm is triggered
-def check_and_trigger_highest_alarm(alarm_type, current_value, alarms, alarm_name, emoji):
+def check_and_trigger_highest_alarm(alarm_type, current_value, alarms, alarm_name, emoji, current_log):
     exceeded_alarms = [alarm for alarm in alarms[alarm_type] if current_value >= alarm]
     if exceeded_alarms:
         highest_alarm = max(exceeded_alarms)
-        log_event(f"{alarm_name}_alarm_triggat_{highest_alarm}_%")
+        log_event(f"{alarm_name}_alarm_triggat_{highest_alarm}_%", current_log)
         print(f"{emoji}{alarm_name} ALARM | ÖVERSKRIDIT {highest_alarm}%{emoji}")
 
 #Starts active monitoring of the system. It scans and triggers a warning for the highest alarm.
-def active_monitoring (alarm_monitoring, alarms):
+def active_monitoring (alarm_monitoring, alarms, current_log):
     alarm_monitoring = True
     try:
         while alarm_monitoring:
             print("\nAktiv övervakning pågår | tryck ctrl+c för att återvända till huvudmenyn\n".upper())
             current_cpu_percent = psutil.cpu_percent(interval=0.2)
-            check_and_trigger_highest_alarm("cpu", current_cpu_percent, alarms, "CPU", "🚨")
+            check_and_trigger_highest_alarm("cpu", current_cpu_percent, alarms, "CPU", "🚨", current_log)
  
             current_memory_percent = psutil.virtual_memory().percent
-            check_and_trigger_highest_alarm("memory", current_memory_percent, alarms, "RAM-MINNE", "🚨")
+            check_and_trigger_highest_alarm("memory", current_memory_percent, alarms, "RAM-MINNE", "🚨", current_log)
 
             current_disk_percent = psutil.disk_usage('/').percent
-            check_and_trigger_highest_alarm("disk", current_disk_percent, alarms, "DISK", "🚨")
+            check_and_trigger_highest_alarm("disk", current_disk_percent, alarms, "DISK", "🚨", current_log)
             time.sleep(2)
 
     except KeyboardInterrupt:
-            log_event(f"Användaren_avslutade_aktiv_övervakning")
+            log_event(f"Användaren_avslutade_aktiv_övervakning", current_log)
             print("Återvänder till huvudmenyn...".upper())
 
