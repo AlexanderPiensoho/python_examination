@@ -1,6 +1,6 @@
 from monitor import start_monitoring, get_cpu_status, get_disk_status, get_memory_status, active_monitoring
-from menu import validate_input, press_enter_to_continue, show_dynamic_menu
-from alarm import AlarmManager, show_all_alarms_numbered, user_remove_alarm
+from menu import validate_input, press_enter_to_continue, show_dynamic_menu, exit_program
+from alarm import AlarmManager, user_remove_alarm, create_alarm_from_user, show_all_alarms_numbered
 from log import log_event, print_current_log
 from datetime import datetime
 
@@ -28,17 +28,15 @@ def main():
     current_log = datetime.now().strftime("log_start_date_%d_%m_%Y_time_%H-%M-%S.log")
     log_event("Användare_startade_programmet", current_log)
     main_menu_is_running = True
-    alarm_monitoring = False
-    alarm_manager = AlarmManager()
     monitoring_active = False
+    alarm_manager = AlarmManager()
     while main_menu_is_running:
         show_dynamic_menu("HUVUDMENY", main_menu)
         menu_choice = validate_input(1, 8)
         #Starts monitoring. No threading, so it only turns monitoring to True.
         match menu_choice:
             case 1:
-                monitoring_active = True
-                start_monitoring()
+                monitoring_active = start_monitoring()
                 log_event("Bakgrundövervakning_startad", current_log)
                 press_enter_to_continue()
             #Show status for CPU, Memory and Disk
@@ -62,6 +60,20 @@ def main():
                     alarm_menu_choice = validate_input(1, 4)
                     match alarm_menu_choice:
                         case 1:
+                            create_alarm_from_user(alarm_manager, "cpu", current_log)
+                        case 2:
+                            create_alarm_from_user(alarm_manager, "memory", current_log)
+                        case 3:
+                            create_alarm_from_user(alarm_manager, "disk", current_log)
+                        case 4: 
+                            set_alarm_menu_is_running = False
+                            print("\nDu skickas tillbaka till huvudmenyn".upper())
+                            log_event("Användaren_återvände_till_huvudmenyn", current_log)
+
+
+                    '''
+                    match alarm_menu_choice:
+                        case 1:
                             alarm_threshold = validate_input(1, 100)
                             alarm_manager.add_alarm("cpu", alarm_threshold) #Adds alarm to a separet JSON file
                             log_event(f"CPU_alarm_satt_på_{alarm_threshold}_%", current_log)
@@ -83,6 +95,7 @@ def main():
                             set_alarm_menu_is_running = False
                             print("\nDu skickas tillbaka till huvudmenyn".upper())
                             log_event("Användaren_återvände_till_huvudmenyn", current_log)
+                        '''
                             
             #Shows all alarms that is stored within the JSON
             case 4:
@@ -92,7 +105,7 @@ def main():
             #Starts active monitoring and calls out alarms when triggered.     
             case 5:
                 log_event("Startade_aktiv_övervakning", current_log)
-                active_monitoring(alarm_monitoring, alarm_manager.alarms, current_log)
+                active_monitoring(alarm_manager.alarms, current_log)
             #Here you will be able to remove alarms from the JSON 
             #Need to fix this to make it prettier
             case 6:
@@ -105,11 +118,7 @@ def main():
                 press_enter_to_continue()
             #Exits program
             case 8:
-                print("="*40)
-                print("AVSLUTAR PROGRAMMET".center(40))
-                print("="*40)
-                log_event("Användare_avslutade_programmet", current_log)
-                break
+                main_menu_is_running = exit_program(log_event, current_log)
 
 
 if __name__ == "__main__":
