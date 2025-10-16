@@ -70,33 +70,7 @@ def main():
                             print("\nDu skickas tillbaka till huvudmenyn".upper())
                             log_event("Användaren_återvände_till_huvudmenyn", current_log)
 
-
-                    '''
-                    match alarm_menu_choice:
-                        case 1:
-                            alarm_threshold = validate_input(1, 100)
-                            alarm_manager.add_alarm("cpu", alarm_threshold) #Adds alarm to a separet JSON file
-                            log_event(f"CPU_alarm_satt_på_{alarm_threshold}_%", current_log)
-                            press_enter_to_continue()
-
-                        case 2:
-                            alarm_threshold = validate_input(1, 100)
-                            alarm_manager.add_alarm("memory", alarm_threshold)
-                            log_event(f"memory_alarm_satt_på_{alarm_threshold}_%", current_log)
-                            press_enter_to_continue()
-                                        
-                        case 3:
-                            alarm_threshold = validate_input(1, 100)
-                            alarm_manager.add_alarm("disk", alarm_threshold)
-                            log_event(f"disk_alarm_satt_på_{alarm_threshold}_%", current_log)
-                            press_enter_to_continue()
-
-                        case 4:
-                            set_alarm_menu_is_running = False
-                            print("\nDu skickas tillbaka till huvudmenyn".upper())
-                            log_event("Användaren_återvände_till_huvudmenyn", current_log)
-                        '''
-                            
+         
             #Shows all alarms that is stored within the JSON
             case 4:
                 show_all_alarms_numbered(alarm_manager.alarms)
