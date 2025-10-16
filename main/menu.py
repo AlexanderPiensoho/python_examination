@@ -30,3 +30,4 @@ def exit_program(log_event, current_log):
     print("="*40)
     log_event("Användare_avslutade_programmet", current_log)
     return False
+
