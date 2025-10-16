@@ -1,4 +1,4 @@
-from monitor import start_monitoring, get_cpu_status, get_disk_status, get_memory_status, active_monitoring
+from monitor import start_monitoring, print_system_status, active_monitoring
 from menu import validate_input, press_enter_to_continue, show_dynamic_menu, exit_program
 from alarm import AlarmManager, user_remove_alarm, create_alarm_from_user, show_all_alarms_numbered
 from log import log_event, print_current_log
@@ -42,12 +42,7 @@ def main():
             #Show status for CPU, Memory and Disk
             case 2:
                 if monitoring_active:
-                    print(get_cpu_status())
-                    print(get_memory_status())
-                    print(get_disk_status())
-                    print()
-                    log_event("System_status_hämtad_lyckades", current_log)
-                    press_enter_to_continue()
+                    print_system_status(current_log)
                 else:
                     log_event("System_status_hämtad_misslyckades", current_log)
                     print("❌Systemövervakning ej startad❌")

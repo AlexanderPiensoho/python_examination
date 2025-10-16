@@ -1,6 +1,7 @@
 import psutil
 import time
 from log import log_event
+from menu import press_enter_to_continue
 
 def start_monitoring():
     print("\n🕵️ ÖVERVAKNING STARTAD 🕵️\n")
@@ -28,6 +29,15 @@ def get_disk_status():
     disk_used_gb = psutil.disk_usage('/').used / bytes_to_gb()
     total_disk_gb = psutil.disk_usage('/').total / bytes_to_gb()
     return f"Disk | {disk_percent} % | {disk_used_gb:.2f}GB använta utav {total_disk_gb:.2f}GB total"
+
+def print_system_status(current_log):
+    print(get_cpu_status())
+    print(get_memory_status())
+    print(get_disk_status())
+    log_event("System_status_hämtad_lyckades", current_log)
+    press_enter_to_continue()
+
+
 
 #Makes sure only the highest alarm is triggered
 def check_and_trigger_highest_alarm(alarm_type, current_value, alarms, alarm_name, emoji, current_log):
