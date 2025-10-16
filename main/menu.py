@@ -21,5 +21,12 @@ def validate_input(min_value, max_value):
         except ValueError:
             print("Felaktigt värde, det måste vara en siffra")
         
-def press_enter_to_continue ():
+def press_enter_to_continue():
     input("Tryck enter för att fortsätta...".upper())
+
+def exit_program(log_event, current_log):
+    print("="*40)
+    print("AVSLUTAR PROGRAMMET".center(40))
+    print("="*40)
+    log_event("Användare_avslutade_programmet", current_log)
+    return False

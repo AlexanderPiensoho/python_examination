@@ -3,11 +3,8 @@ import time
 from log import log_event
 
 def start_monitoring():
-    cpu_percent = psutil.cpu_percent(interval=0.2)
-    memory = psutil.virtual_memory()
-    disk = psutil.disk_usage("/")
     print("\n🕵️ ÖVERVAKNING STARTAD 🕵️\n")
-    return cpu_percent, memory, disk
+    return True
 
 #Converts data from psutil from bytes to gigabyte.        
 def bytes_to_gb(): 
@@ -41,7 +38,7 @@ def check_and_trigger_highest_alarm(alarm_type, current_value, alarms, alarm_nam
         print(f"{emoji}{alarm_name} ALARM | ÖVERSKRIDIT {highest_alarm}%{emoji}")
 
 #Starts active monitoring of the system. It scans and triggers a warning for the highest alarm.
-def active_monitoring (alarm_monitoring, alarms, current_log):
+def active_monitoring (alarms, current_log):
     alarm_monitoring = True
     try:
         while alarm_monitoring:
