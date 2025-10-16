@@ -27,7 +27,7 @@ class AlarmManager:
             print(f"\nDitt {alarm_type} alarm är inställt på {threshold}%")
             self.save_to_file()
 
-    #delete an alarm
+    #delete an alarm and calls save_to_file to save it in the JSON
     def remove_alarm(self, alarm_type, threshold, current_log):
         if threshold in self.alarms[alarm_type]:
             self.alarms[alarm_type].remove(threshold)
@@ -40,7 +40,6 @@ class AlarmManager:
             return False
 
     #Saves alarm in JSON
-    #Need to make the JSON file better formated.
     def save_to_file(self, filename = "alarms.json"):
         with open(filename, "w") as write_file:
             json.dump(self.alarms, write_file, indent=4)
@@ -81,6 +80,7 @@ def user_remove_alarm(alarm_list, alarm_manager, current_log):
         alarm_manager.remove_alarm(alarm_type, threshold, current_log)
         press_enter_to_continue()
 
+#Handle user input and calls add_alarm method from class.
 def create_alarm_from_user(alarm_manager, alarm_type, current_log):
     alarm_threshold = validate_input(1, 100)
     alarm_manager.add_alarm(alarm_type, alarm_threshold)
