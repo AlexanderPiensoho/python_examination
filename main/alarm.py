@@ -19,10 +19,13 @@ class AlarmManager:
             }
 
     #Adds alarm to dict and calls save_to_file method to store it in JSON
-    def add_alarm(self, alarm_type, alarm_level):
-        self.alarms[alarm_type].append(alarm_level)
-        print(f"\nDitt {alarm_type} alarm är inställt på {alarm_level}%")
-        self.save_to_file()
+    def add_alarm(self, alarm_type, threshold):
+        if threshold in self.alarms[alarm_type]:
+            print("\nAlarm på den nivån finns redan\n")
+        else:
+            self.alarms[alarm_type].append(threshold)
+            print(f"\nDitt {alarm_type} alarm är inställt på {threshold}%")
+            self.save_to_file()
 
     #delete an alarm
     def remove_alarm(self, alarm_type, threshold, current_log):
@@ -55,19 +58,21 @@ class AlarmManager:
 
 #Shows all alarms with a number before 1. cpu alarm 40% 2. cpu alarm 50% etc.
 def show_all_alarms_numbered(alarms):
-    counter = 1
-    alarm_list = []
-    for alarm_type, threshold_list in alarms.items():
-        for threshold in sorted(threshold_list):
-            print(f"{counter}. {alarm_type} alarm {threshold} %")
-            alarm_list.append((alarm_type, threshold))
-            counter +=1
-    return alarm_list
+        counter = 1
+        alarm_list = []
+        for alarm_type, threshold_list in alarms.items():
+            for threshold in sorted(threshold_list):
+                print(f"{counter}. {alarm_type} alarm {threshold} %")
+                alarm_list.append((alarm_type, threshold))
+                counter +=1
+        if counter == 1:
+            print("\nInga aktiva alarm finns\n")
+        return alarm_list
 
 #Handles the user input and makes it easier for the user to remove alarm from list with numbers instead of text
 def user_remove_alarm(alarm_list, alarm_manager, current_log):
     if len(alarm_list) == 0:
-        print("Det finns inga alarm att ta bort")
+        print("\nInga alarm finns att ta bort\n")
         press_enter_to_continue()
     else:
         alarm_remove_choice = validate_input(1, len(alarm_list))
@@ -75,6 +80,12 @@ def user_remove_alarm(alarm_list, alarm_manager, current_log):
         alarm_type, threshold = alarm_list[idx]
         alarm_manager.remove_alarm(alarm_type, threshold, current_log)
         press_enter_to_continue()
+
+def create_alarm_from_user(alarm_manager, alarm_type, current_log):
+    alarm_threshold = validate_input(1, 100)
+    alarm_manager.add_alarm(alarm_type, alarm_threshold)
+    log_event(f"{alarm_type}_alarm_satt_på_{alarm_threshold}_%", current_log)
+    press_enter_to_continue()
 
 
 
