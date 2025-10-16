@@ -5,26 +5,19 @@ This is my final assingment for my Python course at Chas Academy.
 
 # Introduktion:
 Det här är ett program som kan:
-1. Starta övervakning
-Säger till systemet att övervakningen är igångsatt
+1. Starta övervakning -Säger till systemet att övervakningen är igångsatt
 
-2. Lista över övervakning
-Listar nuvarande status % användning på CPU, RAM och Disk
+2. Lista över övervakning - Listar nuvarande status % användning på CPU, RAM och Disk
 
-3. Skapa nya alarm
-Skapar larm som sparas i JSON fil mellan körningar
+3. Skapa nya alarm - Skapar larm som sparas i JSON fil mellan körningar
 
-4. Visa alarm
-Visar alla larm som är aktiva just nu.
+4. Visa alarm - Visar alla larm som är aktiva just nu.
 
-5. Starta övervakningsläge
-Övervakar kontiturnerligt nuvarande status mot larm och triggar det som ligger närmast.
+5. Starta övervakningsläge - Övervakar kontiturnerligt nuvarande status mot larm och triggar det som ligger närmast.
 
-6. Ta bort alarm
-och sparar det mot JSON
+6. Ta bort alarm - och sparar det mot JSON
 
-7. Kolla alla loggar
-Som har gjort under den specifika programkörningen
+7. Kolla alla loggar - Som har gjort under den specifika programkörningen
 
 8. Avsluta programmet
 
