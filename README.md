@@ -33,6 +33,9 @@ Jag började på slutuppgiften tidigt under kursen då jag varken hade kundskape
 Under byggets gång:
 Under tiden jag byggde lärde jag mig mer om python och började dela upp logiken som fanns på plats i funktioner där jag så att logik återanvändes. Jag utgick nästan hela tiden från de olika menyvalen och djupdök i någon utav av. Det handlade om att förstå vad som kunde förbättras och förenklas och sedan jobba från det.
 
+Dev-log
+Jag har även jobbat med en dev-log under hela processen, det har hjälp mig att skriva av mig frustation skriva upp snabba to-dos så dom inte glöms bort, men också bekräfta mina lösningar under byggets gång.
+
 --------------------------------------------------------------------------------------------------------------------------------
 
 # Programstruktur:
@@ -51,7 +54,7 @@ monitor.py - Alla funktioner som hanterar övervakningen, t.ex. med hjälp av ps
 
 # Viktiga funktioner och klasser
 
-AlarmManager klasssen - Har varit central för att hantera alla data-struktur kopplat till mina larm. Den har förnklat arbetet rejält efter jag fick dit den. sen har jag frågat mig flera gånger om jag ska baka in fler metoder i klassen för att förenkla ytterligare.
+AlarmManager klasssen - Har varit central för att hantera alla data-struktur kopplat till mina larm. Den har förenklat arbetet med hantering av datan i programmet avsevärt. sen har jag frågat mig flera gånger om jag ska baka in fler metoder i klassen för att förenkla ytterligare.
 
 Validate_input() - en kritisk funktion som hanterar all input i programmet, den är dynamisk och växt fram och utvecklats under byggets gång. 
 
