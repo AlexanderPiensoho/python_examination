@@ -45,7 +45,7 @@ def check_and_trigger_highest_alarm(alarm_type: str, current_value: float, alarm
     list-comprehension used to go through all alarms and take all that are triggered and uses max() to only show the highest triggered alarm
     param: alarm_type - ie "cpu"
     param: current_value - current value for alarm_type ie 5%
-    param: alarms - all alarms in datastructure dict[str, list[int]]
+    param: alarms - all alarms in data structure dict[str, list[int]]
     alarm_name: The name that prints when alarm triggers
     emoji: just an emoji :)
     '''
@@ -56,10 +56,10 @@ def check_and_trigger_highest_alarm(alarm_type: str, current_value: float, alarm
         print(f"\n{emoji}{alarm_name} LARM | ÖVERSKRIDIT {highest_alarm}%{emoji}")
 
 
-def active_monitoring (alarms:dict[str, list[int]], monitoring_active: bool) -> None:
+def active_monitoring (alarms:dict[str, list[int]]) -> None:
     log_event("Startade_aktiv_övervakning")
     try:
-            while monitoring_active:
+            while True:
                 print("\nAktiv övervakning pågår | tryck ctrl+c för att återvända till huvudmenyn".upper())
                 current_cpu_percent = psutil.cpu_percent(interval=0.2)
                 check_and_trigger_highest_alarm("cpu", current_cpu_percent, alarms, "CPU", "🚨")

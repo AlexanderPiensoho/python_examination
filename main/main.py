@@ -72,7 +72,7 @@ def main() -> None:
                 if not monitoring_active:
                     print_no_monitoring_active()
                 else:
-                    active_monitoring(alarm_manager.get_alarm(), monitoring_active)
+                    active_monitoring(alarm_manager.get_alarm())
                     
 
             case 6:
