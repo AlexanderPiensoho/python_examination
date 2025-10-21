@@ -8,9 +8,9 @@ class AlarmManager:
     '''
     def __init__(self):
         print("Laddar tidigare larm...")
-        loaded = self.load_from_file()
-        if loaded:
-            self.alarms = loaded
+        loaded_alarms = self.load_from_file()
+        if loaded_alarms:
+            self.alarms = loaded_alarms
         else:
             self.alarms = {
                 "cpu": [],
@@ -53,6 +53,9 @@ class AlarmManager:
                 return loaded_data
         except FileNotFoundError:
             return None
+    
+    def get_alarm(self):
+        return self.alarms
 
 
 #Shows all alarms with a number before 1. cpu alarm 40% 2. cpu alarm 50% etc.
@@ -64,8 +67,6 @@ def show_all_alarms_numbered(alarms):
                 print(f"{counter}. {alarm_type} alarm {threshold} %")
                 alarm_list.append((alarm_type, threshold))
                 counter +=1
-        if counter == 1:
-            print("\nInga aktiva alarm finns\n")
         return alarm_list
 
 #Handles the user input and makes it easier for the user to remove alarm from list with numbers instead of text

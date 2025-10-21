@@ -64,7 +64,7 @@ def main():
                             log_event("Användaren_återvände_till_huvudmenyn", current_log)
 
             case 4:
-                show_all_alarms_numbered(alarm_manager.alarms)
+                show_all_alarms_numbered(alarm_manager.get_alarm())
                 log_event("Visade_alla_aktiva_alarm", current_log)
                 press_enter_to_continue()
     
@@ -74,7 +74,7 @@ def main():
                 active_monitoring(alarm_manager.alarms, monitoring_active, current_log)
 
             case 6:
-                alarm_list = show_all_alarms_numbered(alarm_manager.alarms)
+                alarm_list = show_all_alarms_numbered(alarm_manager.get_alarm())
                 user_remove_alarm(alarm_list, alarm_manager, current_log)
                 
             case 7:
