@@ -56,7 +56,7 @@ monitor.py - Alla funktioner som hanterar övervakningen, t.ex. med hjälp av ps
 
 AlarmManager klasssen - Har varit central för att hantera alla data-struktur kopplat till mina larm. Den har förenklat arbetet med hantering av datan i programmet avsevärt. sen har jag frågat mig flera gånger om jag ska baka in fler metoder i klassen för att förenkla ytterligare.
 
-Validate_input() - en kritisk funktion som hanterar all input i programmet, den är dynamisk och växt fram och utvecklats under byggets gång. 
+Validate_input() - en kritisk funktion som hanterar all input i programmet, den är dynamisk och växt fram och utvecklats under byggets gång. Det första var att göra numrena den hantera dynamiskt, det blev rätt så självklart när jag tidigare hade 3 olika validate input funktioner. Sedan lade jag till keyboardinterrupt som skapade en del intressanta problem i andra funktioner som helt plötsligt va tvunga att ha logik för att hantera eventuell None som dök upp. Men det som har gjort den här så roliga är att den är med nästan överallt i programmet och det är så viktigt att den är korrekt byggd annars krashar det mesta.
 
 show_all_alarms_numbered() - för användarvänligheten framförallt för bortagning av larm så skapade jag den här funktionen som gör om min dict->list struktur till list->tuple struktur för att enkelt kunna para ihop nyckeln (cpu) med värde (40%) i en egen tuple i listan för att få den numrerad så användaren endast behöver välja en siffra att ta bort istället för att skriva text input.
 
@@ -67,24 +67,28 @@ show_all_alarms_numbered() - för användarvänligheten framförallt för bortag
 psutil - för att kunna läsa alla systemresurser
 json - för att hantera JSON filer
 time - för att systemet ska vänta lite mellan printar i aktiv övervakning
+datetime - för att kunna skapa tidstämplar
 
 --------------------------------------------------------------------------------------------------------------------------------
 # Git hantering
 
 Min github hantering kunde varit mycket bättre, då jag framförallt i början bara pushade allting samtidigt med samma commit message. Senare under processen delade jag upp commits för olika filer för att kunna separare meddelanden, det gjorde att jag enklare kunde följa historiken på händlser som skett i mitt program.
+sista veckan under utvecklingen har jag branchat och byggt i branchen för att sedan merga den. det har funkat väldigt bra och jag har inte behövt vara lika orolig för att förstöra mitt program.
 
 --------------------------------------------------------------------------------------------------------------------------------
 
 # Testning och felsökning
-Under loppets gång har jag testat kod genom att provköra programmet och klicka mig igenom valen. Jag har även tagit del av både handeling från lärare men framförallt klasskompisar som har fått testköra mitt program och leta efter fel.
+Under loppets gång har jag testat kod genom att provköra programmet och klicka mig igenom valen. Jag har även tagit del av både handledning från lärare men framförallt klasskompisar som har fått testköra mitt program och leta efter fel.
 i slutampen av kursen har vi även gjort renoldade code-reviews på varandra för att verkligen syna koden och läsbarheten.
+jag har även tagit hjälp av claude code för att göra code-reviews. Det har tvingat mig att tänka igenom designval och förstå min kod så jag kan factchecka AIn
 
 --------------------------------------------------------------------------------------------------------------------------------
 
 # Resultatet
 Jag är överlag nöjd med programmet även fast det är lätt att fastna i det jag hade viljat göra mer och bättre utav av.
 Särskilt nöjd är jag över att jag lyckas baka in mycket i funktioner så det inte blir lika mycket DRY i koden.
-t.ex. dynamiskt meny och input-validering.
+och att jag har fått ett relativt rent main program. Att från 0 bygga det här är jag verkligen stolt över.
+
 
 --------------------------------------------------------------------------------------------------------------------------------
 
@@ -96,11 +100,13 @@ Att bryta ner problemen så det känns som hanterbara utmaningar och inte fastna
 
 Och att hela tiden tänka, kan jag läsa min kod om 1 månad och förstå vad jag gjort? (variabelnamn, snyggt och strukturerat) är något jag hela tiden tänker på.
 
+Att å ena sidan aldrig vara nöjd, men också förstå att du inte kan sitta med samma problem och finslipa det i dagar, utan ibland måste du bara gå vidare för att sedan backa tillbaka när du har skaffat dig mer kunskap.
+
 --------------------------------------------------------------------------------------------------------------------------------
 
 # Möjliga förbättringar och vidareutveckling
 
-Jag hade en dröm i början av kursen att bygga ett riktigt frontend till programmet, typ i HTML. Men insåg rätt tidigt att jag kommer inte hinna med det. Jag hade gärnat viljat få programmet ännu mer dynamiskt och städa bort alla match/case satser i main programmet för att få det ännu mer cleant.
+Jag hade en dröm i början av kursen att bygga ett riktigt frontend till programmet, typ i HTML. Men insåg rätt tidigt att jag kommer inte hinna med det. Jag hade gärnat viljat få programmet ännu mer dynamiskt och städa bort alla match/case satser i main programmet och istället har allting 100% dynamiskt med funktioner och klasser som pratar med varandra. Däremot kanske jag inte slutar med projektet bara för att kursen är slut 😊
 
 --------------------------------------------------------------------------------------------------------------------------------
 
