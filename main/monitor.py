@@ -3,64 +3,76 @@ import time
 from log import log_event
 from menu import press_enter_to_continue
 
-convert_bytes_to_gb = lambda: 1024**3   
+BYTES_TO_GB = 1024**3   
 
-def get_cpu_status():
+def get_cpu_status() -> str:
     cpu_percent = psutil.cpu_percent(interval=1)
     return f"CPU | {cpu_percent} %"
 
-def get_memory_status():
+def get_memory_status() -> str:
     memory_percent = psutil.virtual_memory().percent
-    memory_used_gb = psutil.virtual_memory().used / convert_bytes_to_gb()
-    total_memory_gb = psutil.virtual_memory().total / convert_bytes_to_gb()
+    memory_used_gb = psutil.virtual_memory().used / BYTES_TO_GB
+    total_memory_gb = psutil.virtual_memory().total / BYTES_TO_GB
     return f"RAM-minne | {memory_percent} % | {memory_used_gb:.2f}GB använt utav {total_memory_gb:.2f}GB total"
 
-def get_disk_status():
+def get_disk_status() -> str:
     disk_percent = psutil.disk_usage('/').percent
-    disk_used_gb = psutil.disk_usage('/').used / convert_bytes_to_gb()
-    total_disk_gb = psutil.disk_usage('/').total / convert_bytes_to_gb()
+    disk_used_gb = psutil.disk_usage('/').used / BYTES_TO_GB
+    total_disk_gb = psutil.disk_usage('/').total / BYTES_TO_GB
     return f"Disk | {disk_percent} % | {disk_used_gb:.2f}GB använta utav {total_disk_gb:.2f}GB total"
-#Uses all functions above to make a prettier main program
-def print_system_status(current_log):
-    print(get_cpu_status())
+
+def print_system_status() -> None:
+    print(f"\n{get_cpu_status()}")
     print(get_memory_status())
     print(get_disk_status())
-    log_event("System_status_hämtad_lyckades", current_log)
+    log_event("System_status_hämtad_lyckades")
     press_enter_to_continue()
 
-def start_monitoring():
-    print("\n🕵️ ÖVERVAKNING STARTAD 🕵️\n")
+def start_monitoring() -> bool:
+    print("\n🕵️ Övervakning startad 🕵️")
+    log_event("Bakgrundövervakning_startad")
+    press_enter_to_continue()
     return True
 
-#Makes sure only the highest alarm is triggered
-def check_and_trigger_highest_alarm(alarm_type, current_value, alarms, alarm_name, emoji, current_log):
-    exceeded_alarms = [threshold_value for threshold_value in alarms[alarm_type] if current_value >= threshold_value]
+def print_no_monitoring_active() -> None:
+    log_event("Ingen_övervakning_startad")
+    print("\n❌ Övervakning är inte startad ❌")
+    press_enter_to_continue()
+
+
+def check_and_trigger_highest_alarm(alarm_type: str, current_value: float, alarms: dict[str, list[int]], alarm_name: str, emoji: str) -> None:
+    '''
+    list-comprehension used to go through all alarms and take all that are triggered and uses max() to only show the highest triggered alarm
+    param: alarm_type - ie "cpu"
+    param: current_value - current value for alarm_type ie 5%
+    param: alarms - all alarms in datastructure dict[str, list[int]]
+    alarm_name: The name that prints when alarm triggers
+    emoji: just an emoji :)
+    '''
+    exceeded_alarms = [threshold_value for threshold_value in alarms.get(alarm_type, []) if current_value >= threshold_value]
     if exceeded_alarms:
         highest_alarm = max(exceeded_alarms)
-        log_event(f"{alarm_name}_alarm_triggat_{highest_alarm}_%", current_log)
-        print(f"{emoji}{alarm_name} ALARM | ÖVERSKRIDIT {highest_alarm}%{emoji}")
+        log_event(f"{alarm_name}_larm_triggat_{highest_alarm}_%")
+        print(f"\n{emoji}{alarm_name} LARM | ÖVERSKRIDIT {highest_alarm}%{emoji}")
 
-#Starts active monitoring of the system. It scans and triggers a warning for the highest alarm.
-def active_monitoring (alarms, monitoring_active, current_log):
 
-    if monitoring_active:
-        try:
+def active_monitoring (alarms:dict[str, list[int]], monitoring_active: bool) -> None:
+    log_event("Startade_aktiv_övervakning")
+    try:
             while monitoring_active:
-                print("\nAktiv övervakning pågår | tryck ctrl+c för att återvända till huvudmenyn\n".upper())
+                print("\nAktiv övervakning pågår | tryck ctrl+c för att återvända till huvudmenyn".upper())
                 current_cpu_percent = psutil.cpu_percent(interval=0.2)
-                check_and_trigger_highest_alarm("cpu", current_cpu_percent, alarms, "CPU", "🚨", current_log)
-    
+                check_and_trigger_highest_alarm("cpu", current_cpu_percent, alarms, "CPU", "🚨")
+
                 current_memory_percent = psutil.virtual_memory().percent
-                check_and_trigger_highest_alarm("memory", current_memory_percent, alarms, "RAM-MINNE", "🚨", current_log)
+                check_and_trigger_highest_alarm("memory", current_memory_percent, alarms, "RAM-MINNE", "🚨")
 
                 current_disk_percent = psutil.disk_usage('/').percent
-                check_and_trigger_highest_alarm("disk", current_disk_percent, alarms, "DISK", "🚨", current_log)
-                time.sleep(2)
+                check_and_trigger_highest_alarm("disk", current_disk_percent, alarms, "DISK", "🚨")
+                time.sleep(5)
 
-        except KeyboardInterrupt:
-                log_event(f"Användaren_avslutade_aktiv_övervakning", current_log)
-                print("Återvänder till huvudmenyn...".upper())
-    else:
-        print("Övervakning är inte startat")
-        press_enter_to_continue()
+    except KeyboardInterrupt:
+            log_event(f"Användaren_avslutade_aktiv_övervakning")
+            print("\nÅtervänder till huvudmenyn...\n")
+
 
