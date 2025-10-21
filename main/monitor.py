@@ -2,9 +2,8 @@ import psutil
 import time
 from log import log_event
 from menu import press_enter_to_continue
-      
-def bytes_to_gb(): 
-    return 1024**3
+
+convert_bytes_to_gb = lambda: 1024**3   
 
 def get_cpu_status():
     cpu_percent = psutil.cpu_percent(interval=1)
@@ -12,14 +11,14 @@ def get_cpu_status():
 
 def get_memory_status():
     memory_percent = psutil.virtual_memory().percent
-    memory_used_gb = psutil.virtual_memory().used / bytes_to_gb()
-    total_memory_gb = psutil.virtual_memory().total / bytes_to_gb()
+    memory_used_gb = psutil.virtual_memory().used / convert_bytes_to_gb()
+    total_memory_gb = psutil.virtual_memory().total / convert_bytes_to_gb()
     return f"RAM-minne | {memory_percent} % | {memory_used_gb:.2f}GB använt utav {total_memory_gb:.2f}GB total"
 
 def get_disk_status():
     disk_percent = psutil.disk_usage('/').percent
-    disk_used_gb = psutil.disk_usage('/').used / bytes_to_gb()
-    total_disk_gb = psutil.disk_usage('/').total / bytes_to_gb()
+    disk_used_gb = psutil.disk_usage('/').used / convert_bytes_to_gb()
+    total_disk_gb = psutil.disk_usage('/').total / convert_bytes_to_gb()
     return f"Disk | {disk_percent} % | {disk_used_gb:.2f}GB använta utav {total_disk_gb:.2f}GB total"
 #Uses all functions above to make a prettier main program
 def print_system_status(current_log):
