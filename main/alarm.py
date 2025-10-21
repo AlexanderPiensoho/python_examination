@@ -4,48 +4,52 @@ from menu import press_enter_to_continue, validate_input
 
 class AlarmManager:
     '''
+    AlarmManager handles all the data for the alarms, structures, JSON load and save
     init tries to load alarms from JSON-file, if no previous alarms exist it creates a empty alarm dict.
     '''
     def __init__(self):
-        print("Laddar tidigare larm...")
         loaded_alarms = self.load_from_file()
         if loaded_alarms:
+            print("Laddar tidigare larm...")
             self.alarms = loaded_alarms
         else:
             self.alarms = {
-                "cpu": [],
-                "memory": [],
+                "cpu":[],
+                "memory":[],
                 "disk":[]
             }
 
-    #Adds alarm to dict and calls save_to_file method to store it in JSON
-    def add_alarm(self, alarm_type, threshold):
+
+    def add_alarm(self, alarm_type: str, threshold: int) -> None:
+        if threshold is None:
+            return None
         if threshold in self.alarms[alarm_type]:
             print("\nAlarm på den nivån finns redan\n")
         else:
             self.alarms[alarm_type].append(threshold)
             print(f"\nDitt {alarm_type} alarm är inställt på {threshold}%")
+            log_event(f"{alarm_type}_alarm_satt_på_{threshold}_%")
             self.save_to_file()
 
-    #delete an alarm and calls save_to_file to save it in the JSON
-    def remove_alarm(self, alarm_type, threshold, current_log):
+
+    def remove_alarm(self, alarm_type: str, threshold: int) -> bool:
         if threshold in self.alarms[alarm_type]:
             self.alarms[alarm_type].remove(threshold)
-            print(f"Raderade {alarm_type} alarm {threshold} %")
-            log_event(f"Användare_tog_bort_alarm_{alarm_type}_på_{threshold}_%", current_log)
+            print(f"\nRaderade {alarm_type} alarm {threshold} %")
+            log_event(f"Användare_tog_bort_alarm_{alarm_type}_på_{threshold}_%")
             self.save_to_file()
             return True
         else: 
             print(f"Inget {alarm_type} alarm hittades")
             return False
 
-    #Saves alarm in JSON
-    def save_to_file(self, filename = "alarms.json"):
+
+    def save_to_file(self, filename:str = "alarms.json") -> None:
         with open(filename, "w") as write_file:
             json.dump(self.alarms, write_file, indent=4)
 
-    #Loads file from JSON into the programs dict
-    def load_from_file(self, filename = "alarms.json"):
+
+    def load_from_file(self, filename:str = "alarms.json") -> dict[str, list[int]] | None:
         try:
             with open(filename, "r") as read_file:
                 loaded_data = json.load(read_file)
@@ -53,39 +57,47 @@ class AlarmManager:
                 return loaded_data
         except FileNotFoundError:
             return None
-    
-    def get_alarm(self):
+
+
+    def get_alarm(self) -> dict[str, list[int]]:
         return self.alarms
 
 
-#Shows all alarms with a number before 1. cpu alarm 40% 2. cpu alarm 50% etc.
-def show_all_alarms_numbered(alarms):
+
+def show_all_alarms_numbered(alarms: dict[str, list[int]]) -> list[tuple[str, int]]:
+        '''
+        Converts AlarmManager data (dict[str, list[int]] to list[tuple[str, int]] to show a
+        numbered list for the user. easier for user to handle removing alarms)
+        '''
         counter = 1
         alarm_list = []
         for alarm_type, threshold_list in alarms.items():
             for threshold in sorted(threshold_list):
                 print(f"{counter}. {alarm_type} alarm {threshold} %")
                 alarm_list.append((alarm_type, threshold))
-                counter +=1
+                counter += 1
         return alarm_list
 
-#Handles the user input and makes it easier for the user to remove alarm from list with numbers instead of text
-def user_remove_alarm(alarm_list, alarm_manager, current_log):
+
+def user_remove_alarm(alarm_list: list[tuple[str, int]], alarm_manager: AlarmManager) -> None:
     if len(alarm_list) == 0:
         print("\nInga alarm finns att ta bort\n")
         press_enter_to_continue()
+        return None
+    alarm_remove_choice = validate_input("Välj ett larm att ta bort", 1, len(alarm_list), "|ctrl+c återvänder till huvudmenyn|")
+    if alarm_remove_choice is None:
+        print("Återvänder till huvudmenyn...")
+        return None
     else:
-        alarm_remove_choice = validate_input(1, len(alarm_list))
         idx = alarm_remove_choice -1
         alarm_type, threshold = alarm_list[idx]
-        alarm_manager.remove_alarm(alarm_type, threshold, current_log)
+        alarm_manager.remove_alarm(alarm_type, threshold)
         press_enter_to_continue()
 
-#Handle user input and calls add_alarm method from class.
-def create_alarm_from_user(alarm_manager, alarm_type, current_log):
-    alarm_threshold = validate_input(1, 100)
+
+def create_alarm_from_user(alarm_manager: AlarmManager, alarm_type: str) -> None:
+    alarm_threshold = validate_input("Sätt en larmnivå mellan", 1, 100)
     alarm_manager.add_alarm(alarm_type, alarm_threshold)
-    log_event(f"{alarm_type}_alarm_satt_på_{alarm_threshold}_%", current_log)
     press_enter_to_continue()
 
 
