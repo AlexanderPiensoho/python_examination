@@ -86,7 +86,7 @@ alarm.py - innehåller klassen AlarmManager som hanterar data-strukur och JSON l
 
 log.py - funktioner för hantering av loggningen
 
-menu.py - hanterar alla funktioner kopplat till menyn och input validering
+menu.py - hanterar alla funktioner kopplat till det visuella i menyn och input validering
 
 monitor.py - Alla funktioner som hanterar övervakningen, t.ex. med hjälp av psutil.
 
@@ -108,6 +108,7 @@ psutil - för att kunna läsa alla systemresurser
 json - för att hantera JSON filer
 time - för att systemet ska vänta lite mellan printar i aktiv övervakning
 datetime - för att kunna skapa tidstämplar
+platform - för att göra programmet körbart i både MacOS/Linux och Windows
 
 ---------------------------------------------------------------------------------------------------------------------------
 ## Git hantering
@@ -147,6 +148,7 @@ Att å ena sidan aldrig vara nöjd, men också förstå att du inte kan sitta me
 ## Möjliga förbättringar och vidareutveckling
 
 Jag hade en dröm i början av kursen att bygga ett riktigt frontend till programmet, typ i HTML. Men insåg rätt tidigt att jag kommer inte hinna med det. Jag hade gärnat viljat få programmet ännu mer dynamiskt och städa bort alla match/case satser i main programmet och istället har allting 100% dynamiskt med funktioner och klasser som pratar med varandra. Däremot kanske jag inte slutar med projektet bara för att kursen är slut 😊
+Jag hade gärna brutit ner funktionerna ytterligare för att faktiskt göra dom atomiska (bort med print/input) men det blev för mycket för att hinna med på slutampen.
 
 ---------------------------------------------------------------------------------------------------------------------------
 
