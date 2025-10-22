@@ -25,6 +25,7 @@ class AlarmManager:
             return None
         if threshold in self.alarms[alarm_type]:
             print("\nAlarm på den nivån finns redan\n")
+            return None
         else:
             self.alarms[alarm_type].append(threshold)
             print(f"\nDitt {alarm_type} alarm är inställt på {threshold}%")
@@ -80,11 +81,12 @@ def show_all_alarms_numbered(alarms: dict[str, list[int]]) -> list[tuple[str, in
 
 
 def user_remove_alarm(alarm_list: list[tuple[str, int]], alarm_manager: AlarmManager) -> None:
-    if len(alarm_list) == 0:
+    if not alarm_list:
         print("\nInga alarm finns att ta bort\n")
         press_enter_to_continue()
         return None
-    alarm_remove_choice = validate_input("Välj ett larm att ta bort", 1, len(alarm_list), "|ctrl+c återvänder till huvudmenyn|")
+    alarm_remove_choice = validate_input("Välj ett larm att ta bort", 1, len(alarm_list), 
+                                         "|ctrl+c återvänder till huvudmenyn|")
     if alarm_remove_choice is None:
         print("Återvänder till huvudmenyn...")
         return None
