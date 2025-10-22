@@ -3,7 +3,7 @@ This is my final assingment for my Python course at Chas Academy.
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-# Introduktion:
+## Introduktion:
 Det här är ett program som kan:
 1. Starta övervakning -Säger till systemet att övervakningen är igångsatt
 
@@ -23,9 +23,49 @@ Det här är ett program som kan:
 
 Syftet med programmet är att jag ska lära mig grunderna inom Python programmering kopplat till DevOps engineer yrket.
 
---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
 
-# Planering och design:
+## Systemkrav
+- Python 3.10 eller nyare
+- Windows, MacOS eller Linux
+
+## Installation
+### Steg 1: Klona ner projektet
+```bash
+git clone https://github.com/AlexanderPiensoho/python_examination.git
+cd python_examination
+```
+### Steg 2: Skapa en virituell miljö (rekommenderat)
+**MacOS/Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+**Windows:**
+```bash
+python -m venv .venv
+.venv\scripts\activate
+```
+### Steg 3: Installera beroenden
+```bash
+pip install -r requirements.txt
+```
+
+## Köra programmet
+**MacOS/Linux:**
+```bash
+cd main
+python3 main.py
+```
+
+**Windows:**
+```bash
+cd main
+python main.py
+```
+---------------------------------------------------------------------------------------------------------------------------
+
+## Planering och design:
 
 Början:
 Jag började på slutuppgiften tidigt under kursen då jag varken hade kundskaper om funktioner eller objekt. vilket gjorde att jag bara började skissa på menyn och sedan neråt i punkterna för att få så mycket grundlogik att fungera som möjligt, utan att bry mig speciellt mycket om felhantering, läsbarhet eller att det skulle vara pythonic.
@@ -38,7 +78,7 @@ Jag har även jobbat med en dev-log under hela processen, det har hjälp mig att
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-# Programstruktur:
+## Programstruktur:
 
 Main.py - är startpunkten på programmet och här samlas allting.
 
@@ -52,7 +92,7 @@ monitor.py - Alla funktioner som hanterar övervakningen, t.ex. med hjälp av ps
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-# Viktiga funktioner och klasser
+## Viktiga funktioner och klasser
 
 AlarmManager klasssen - Har varit central för att hantera alla data-struktur kopplat till mina larm. Den har förenklat arbetet med hantering av datan i programmet avsevärt. sen har jag frågat mig flera gånger om jag ska baka in fler metoder i klassen för att förenkla ytterligare.
 
@@ -62,37 +102,37 @@ show_all_alarms_numbered() - för användarvänligheten framförallt för bortag
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-# Bibliotek och verktyg
+## Bibliotek och verktyg
 
 psutil - för att kunna läsa alla systemresurser
 json - för att hantera JSON filer
 time - för att systemet ska vänta lite mellan printar i aktiv övervakning
 datetime - för att kunna skapa tidstämplar
 
---------------------------------------------------------------------------------------------------------------------------------
-# Git hantering
+---------------------------------------------------------------------------------------------------------------------------
+## Git hantering
 
 Min github hantering kunde varit mycket bättre, då jag framförallt i början bara pushade allting samtidigt med samma commit message. Senare under processen delade jag upp commits för olika filer för att kunna separare meddelanden, det gjorde att jag enklare kunde följa historiken på händlser som skett i mitt program.
 sista veckan under utvecklingen har jag branchat och byggt i branchen för att sedan merga den. det har funkat väldigt bra och jag har inte behövt vara lika orolig för att förstöra mitt program.
 
---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
 
-# Testning och felsökning
+## Testning och felsökning
 Under loppets gång har jag testat kod genom att provköra programmet och klicka mig igenom valen. Jag har även tagit del av både handledning från lärare men framförallt klasskompisar som har fått testköra mitt program och leta efter fel.
 i slutampen av kursen har vi även gjort renoldade code-reviews på varandra för att verkligen syna koden och läsbarheten.
 jag har även tagit hjälp av claude code för att göra code-reviews. Det har tvingat mig att tänka igenom designval och förstå min kod så jag kan factchecka AIn
 
---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
 
-# Resultatet
+## Resultatet
 Jag är överlag nöjd med programmet även fast det är lätt att fastna i det jag hade viljat göra mer och bättre utav av.
 Särskilt nöjd är jag över att jag lyckas baka in mycket i funktioner så det inte blir lika mycket DRY i koden.
 och att jag har fått ett relativt rent main program. Att från 0 bygga det här är jag verkligen stolt över.
 
 
---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
 
-# Reflektion och lärdomar
+## Reflektion och lärdomar
 
 Det finns alltid flera lösningar och det är inte säkert om du någonsin kommer hitta "DEN BÄSTA LÖSNINGEN" min och mina klasskompisar kod ser verkligen olika ut på många sätt, även fungerar programmet nästan idendiskt.
 
@@ -104,16 +144,16 @@ Att å ena sidan aldrig vara nöjd, men också förstå att du inte kan sitta me
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-# Möjliga förbättringar och vidareutveckling
+## Möjliga förbättringar och vidareutveckling
 
 Jag hade en dröm i början av kursen att bygga ett riktigt frontend till programmet, typ i HTML. Men insåg rätt tidigt att jag kommer inte hinna med det. Jag hade gärnat viljat få programmet ännu mer dynamiskt och städa bort alla match/case satser i main programmet och istället har allting 100% dynamiskt med funktioner och klasser som pratar med varandra. Däremot kanske jag inte slutar med projektet bara för att kursen är slut 😊
 
---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
 
-# Sammanfattning
+## Sammanfattning
 
 Det har varit otroligt roligt att verkligen grotta ner sig i programmering under de här nästan 6 veckorna.
 Inlärningskurvan skjuter verkligen bara rakt upp i början, från att knappt veta vad en variabel är och typ kunna printa
 ("Hello world") till att bygga ett komplett program som det här känns nästan overkligt.
 
---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
