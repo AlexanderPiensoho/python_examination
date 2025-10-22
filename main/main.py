@@ -3,23 +3,21 @@ from menu import validate_input, press_enter_to_continue, show_dynamic_menu, exi
 from alarm import AlarmManager, user_remove_alarm, create_alarm_from_user, show_all_alarms_numbered
 from log import log_event, print_current_log
 
-
 main_menu ={
-    "1": "Starta övervakning",
-    "2": "Lista över övervakning",
-    "3": "Skapa nya alarm",
-    "4": "Visa alarm",
-    "5": "Starta övervakningsläge",
-    "6": "Ta bort alarm",
-    "7": "Kolla alla loggar",
-    "8": "Avsluta programmet"
+    1: "Starta övervakning",
+    2: "Lista över övervakning",
+    3: "Skapa nya alarm",
+    4: "Visa alarm",
+    5: "Starta övervakningsläge",
+    6: "Ta bort alarm",
+    7: "Kolla alla loggar",
+    8: "Avsluta programmet"
 }
-
 alarm_menu = {
-    "1": "CPU",
-    "2": "RAM-Minne",
-    "3": "DISK",
-    "4": "Tillbaka till huvudmenyn"
+    1: "CPU",
+    2: "RAM-Minne",
+    3: "DISK",
+    4: "Tillbaka till huvudmenyn"
 }
 alarm_type_choices = {
     1: "cpu",
@@ -27,12 +25,11 @@ alarm_type_choices = {
     3: "disk"
     }
 
-
 def main() -> None:
     '''
     This program can get system statuses, set/delete/show alarms
     and monitor the alarms against the cumputers current thresholds
-    is logs everything that happens per program-run aswell
+    and logs everything that happens per program-run
     '''
     log_event("Användare_startade_programmet")
     main_menu_is_running = True
@@ -73,7 +70,6 @@ def main() -> None:
                     print_no_monitoring_active()
                 else:
                     active_monitoring(alarm_manager.get_alarm())
-                    
 
             case 6:
                 alarm_list = show_all_alarms_numbered(alarm_manager.get_alarm())
