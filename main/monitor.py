@@ -1,9 +1,11 @@
 import psutil
 import time
+import platform
 from log import log_event
 from menu import press_enter_to_continue
 
-BYTES_TO_GB = 1024**3   
+BYTES_TO_GB = 1024**3
+disk_path = "C:\\" if platform.system() == "Windows" else "/"  
 
 def get_cpu_status() -> str:
     cpu_percent = psutil.cpu_percent(interval=1)
@@ -16,9 +18,9 @@ def get_memory_status() -> str:
     return f"RAM-minne | {memory_percent} % | {memory_used_gb:.2f}GB använt utav {total_memory_gb:.2f}GB total"
 
 def get_disk_status() -> str:
-    disk_percent = psutil.disk_usage('/').percent
-    disk_used_gb = psutil.disk_usage('/').used / BYTES_TO_GB
-    total_disk_gb = psutil.disk_usage('/').total / BYTES_TO_GB
+    disk_percent = psutil.disk_usage(disk_path).percent
+    disk_used_gb = psutil.disk_usage(disk_path).used / BYTES_TO_GB
+    total_disk_gb = psutil.disk_usage(disk_path).total / BYTES_TO_GB
     return f"Disk | {disk_percent} % | {disk_used_gb:.2f}GB använta utav {total_disk_gb:.2f}GB total"
 
 def print_system_status() -> None:
@@ -43,7 +45,7 @@ def print_no_monitoring_active() -> None:
 def check_and_trigger_highest_alarm(alarm_type: str, current_value: float, alarms: dict[str, list[int]], alarm_name: str, emoji: str) -> None:
     '''
     list-comprehension used to go through all alarms and take all that are triggered and uses max() to only show the highest triggered alarm
-    param: alarm_type - ie "cpu"
+    param: alarm_type - ie  "cpu"
     param: current_value - current value for alarm_type ie 5%
     param: alarms - all alarms in data structure dict[str, list[int]]
     alarm_name: The name that prints when alarm triggers
@@ -67,7 +69,7 @@ def active_monitoring (alarms:dict[str, list[int]]) -> None:
                 current_memory_percent = psutil.virtual_memory().percent
                 check_and_trigger_highest_alarm("memory", current_memory_percent, alarms, "RAM-MINNE", "🚨")
 
-                current_disk_percent = psutil.disk_usage('/').percent
+                current_disk_percent = psutil.disk_usage(disk_path).percent
                 check_and_trigger_highest_alarm("disk", current_disk_percent, alarms, "DISK", "🚨")
                 time.sleep(5)
 
