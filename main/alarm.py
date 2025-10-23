@@ -77,12 +77,13 @@ def show_all_alarms_numbered(alarms: dict[str, list[int]]) -> list[tuple[str, in
                 print(f"{counter}. {alarm_type} alarm {threshold} %")
                 alarm_list.append((alarm_type, threshold))
                 counter += 1
+        if counter == 1:
+            print("\nFinns inga aktiva larm")
         return alarm_list
 
 
 def user_remove_alarm(alarm_list: list[tuple[str, int]], alarm_manager: AlarmManager) -> None:
     if not alarm_list:
-        print("\nInga alarm finns att ta bort\n")
         press_enter_to_continue()
         return None
     alarm_remove_choice = validate_input("Välj ett larm att ta bort", 1, len(alarm_list), 

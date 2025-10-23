@@ -5,7 +5,7 @@ from log import log_event
 from menu import press_enter_to_continue
 
 BYTES_TO_GB = 1024**3
-disk_path = "C:\\" if platform.system() == "Windows" else "/"  
+disk_path = "C:" if platform.system() == "Windows" else "/"  
 
 def get_cpu_status() -> str:
     cpu_percent = psutil.cpu_percent(interval=1)
@@ -15,13 +15,13 @@ def get_memory_status() -> str:
     memory_percent = psutil.virtual_memory().percent
     memory_used_gb = psutil.virtual_memory().used / BYTES_TO_GB
     total_memory_gb = psutil.virtual_memory().total / BYTES_TO_GB
-    return f"RAM-minne | {memory_percent} % | {memory_used_gb:.2f}GB använt utav {total_memory_gb:.2f}GB total"
+    return f"RAM-minne | {memory_percent} % | {memory_used_gb:.2f}GB använt av {total_memory_gb:.2f}GB total"
 
 def get_disk_status() -> str:
     disk_percent = psutil.disk_usage(disk_path).percent
     disk_used_gb = psutil.disk_usage(disk_path).used / BYTES_TO_GB
     total_disk_gb = psutil.disk_usage(disk_path).total / BYTES_TO_GB
-    return f"Disk | {disk_percent} % | {disk_used_gb:.2f}GB använta utav {total_disk_gb:.2f}GB total"
+    return f"Disk | {disk_percent} % | {disk_used_gb:.2f}GB använt av {total_disk_gb:.2f}GB total"
 
 def print_system_status() -> None:
     print(f"\n{get_cpu_status()}")
