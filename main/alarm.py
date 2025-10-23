@@ -91,8 +91,7 @@ def user_remove_alarm(alarm_list: list[tuple[str, int]], alarm_manager: AlarmMan
         print("Återvänder till huvudmenyn...")
         return None
     else:
-        idx = alarm_remove_choice -1
-        alarm_type, threshold = alarm_list[idx]
+        alarm_type, threshold = alarm_list[alarm_remove_choice -1]
         alarm_manager.remove_alarm(alarm_type, threshold)
         press_enter_to_continue()
 
