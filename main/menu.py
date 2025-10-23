@@ -1,6 +1,6 @@
 from log import log_event
 
-def show_dynamic_menu(title: int, options: dict[str, str]) -> None:
+def show_dynamic_menu(title: str, options: dict[int, str]) -> None:
     print(f"\n{'='*40}")
     print(title.center(40))
     print("="*40)
